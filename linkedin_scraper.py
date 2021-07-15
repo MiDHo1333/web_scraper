@@ -78,4 +78,4 @@ data = {
 
 df = pd.DataFrame(data)
 print(df)
-df.to_csv("test2.csv", encoding='utf-8', index=False,mode='a')
+df.to_csv("test2.csv", encoding='utf-8', index=False,header=False,mode='a')
