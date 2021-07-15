@@ -17,6 +17,7 @@ Lastly, [download Chromium](https://chromedriver.chromium.org/) and make sure to
 
 ---
 
-
+### Run
+`python .\linkedin_scraper.py` to run the app.
 
 
