@@ -13,6 +13,8 @@ use libraries of different versions, there won't be any conflicts!
 
 Now to actually import the libraries run `pip install -r requirements.txt.` Note that if `pip` is not recognized, then run `conda install pip` before running `pip install...` 
 
+Lastly, [download Chromium](https://chromedriver.chromium.org/) and make sure to get the [correct version based on your Chrome.](https://pchelp.ricmedia.com/check-chromium-browser-version/)
+
 ---
 
 
