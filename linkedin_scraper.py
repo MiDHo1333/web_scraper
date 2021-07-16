@@ -53,7 +53,47 @@ def Scrape_func(a,b,c):
         try:
             text_box = container.find("div",{"class":"jobs-description__content jobs-description-content jobs-description__content--condensed"})
             text_box = container.find("span")
+            #spliting the text in span into individual words
+            text_box = (re.split(r'\W+',text_box))
+            #number of occurences for these words
+            python_word = 0
+            r_word = 0
+            julia_word = 0
+            c_word = 0
+            cplus_word = 0
+            scala_word = 0
+            javascript_word = 0
+            sql_word = 0
+            bach_word = 0
+            master_word = 0
+
+            #for loop to iterate through all words in span to count the importance of them
+            for word in text_box:
+                if (re.compile('Python') == word or re.compile('python') == word):
+                    python_word += 1
+                elif (re.compile('R') == word or re.compile('r') == word):
+                    r_word += 1
+                elif (re.compile('Julia') == word or re.compile('julia') == word):
+                    julia_word += 1
+                elif (re.compile('C') == word or re.compile('c') == word):
+                    c_word += 1
+                elif (re.compile('C++') == word or re.compile('c++') == word):
+                    cplus_word += 1
+                elif (re.compile('C/C++') == word or re.compile('c/c++') == word):
+                    c_word += 1
+                    cplus_word += 1
+                elif (re.compile('Scala') == word or re.compile('scala') == word):
+                    scala_word += 1
+                elif (re.compile('JavaScript') == word or re.compile('Javascript') == word or re.compile('javascript') == word):
+                    javascript_word += 1
+                elif (re.compile('SQL') == word or re.compile('sql') == word): 
+                    sql_word += 1
+                elif (re.compile('Bachelor') == word or re.compile('bachelor') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
+                    bach_word += 1
+                elif (re.compile('Master') == word or re.compile('master') == word or re.compile('M.S.') == word or re.compile('MS') == word or re.compile('MasterDegree') == word): 
+                    master_word += 1
             
+            #appending to new/existing csv file
             b.append(text_box)
             c.append(name)
 
