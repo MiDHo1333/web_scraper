@@ -64,6 +64,7 @@ def Scrape_func(a,b,c):
             scala_word = 0
             javascript_word = 0
             sql_word = 0
+            swift_word = 0
             bach_word = 0
             master_word = 0
 
@@ -88,6 +89,8 @@ def Scrape_func(a,b,c):
                     javascript_word += 1
                 elif (re.compile('SQL') == word or re.compile('sql') == word): 
                     sql_word += 1
+                elif (re.compile('Swift') == word or re.compile('swift') == word): 
+                    swift_word += 1
                 elif (re.compile('Bachelor') == word or re.compile('bachelor') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
                     bach_word += 1
                 elif (re.compile('Master') == word or re.compile('master') == word or re.compile('M.S.') == word or re.compile('MS') == word or re.compile('MasterDegree') == word): 
