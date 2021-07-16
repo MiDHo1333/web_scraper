@@ -100,6 +100,8 @@ def Scrape_func(a,b,c):
             b.append(text_box)
             c.append(name)
 
+            #need to append words to freq csv
+
         except:
             print("Mayday")
             pass 
