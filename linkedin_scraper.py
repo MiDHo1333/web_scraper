@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import requests
 
 occurances = []
+
 #number of occurences for these words
 python_word = 0
 r_word = 0
@@ -22,7 +23,6 @@ master_word = 0
 cloud_word = 0
 tableau_word = 0
 
-
 def Scrape_func(links):
     url = "https://www.linkedin.com/jobs/view/2644245283/?alternateChannel=search&refId=V7qh%2F7YOXM6rnRdfIu8lCA%3D%3D&trackingId=YCM8qAXxtQH80KA9b2C6hA%3D%3D"
     url += 'detail/recent-activity/shares/'
@@ -36,33 +36,32 @@ def Scrape_func(links):
             text_box = re.split(r'\W+',str(text_box))
             print(text_box)
 
-            
             #for loop to iterate through all words in span to count the importance of them
             for word in text_box:
-                if (re.compile('Python') == word or re.compile('python') == word):
+                if (re.compile('Python').match(word) or re.compile('python').match(word)):
                     python_word += 1
-                elif (re.compile('R') == word or re.compile('r') == word):
+                elif (re.compile('R').match(word) or re.compile('r').match(word)):
                     r_word += 1
-                elif (re.compile('Julia') == word or re.compile('julia') == word):
+                elif (re.compile('Julia').match(word) or re.compile('julia').match(word)):
                     julia_word += 1
-                elif (re.compile('C') == word or re.compile('c') == word):
+                elif (re.compile('C').match(word) or re.compile('c').match(word)):
                     c_word += 1
-                elif (re.compile('C\+\+') == word or re.compile('c\+\+') == word):
+                elif (re.compile('C\+\+').match(word) or re.compile('c\+\+').match(word)):
                     cplus_word += 1
-                elif (re.compile('C/C\+\+') == word or re.compile('c/c\+\+') == word):
+                elif (re.compile('C/C\+\+').match(word) or re.compile('c/c\+\+').match(word)):
                     c_word += 1
                     cplus_word += 1
-                elif (re.compile('Scala') == word or re.compile('scala') == word):
+                elif (re.compile('Scala').match(word) or re.compile('scala').match(word)):
                     scala_word += 1
-                elif (re.compile('JavaScript') == word or re.compile('Javascript') == word or re.compile('javascript') == word):
+                elif (re.compile('JavaScript').match(word) or re.compile('Javascript').match(word) or re.compile('javascript').match(word)):
                     javascript_word += 1
-                elif (re.compile('SQL') == word or re.compile('sql') == word): 
+                elif (re.compile('SQL').match(word) or re.compile('sql').match(word)): 
                     sql_word += 1
-                elif (re.compile('Swift') == word or re.compile('swift') == word): 
+                elif (re.compile('Swift').match(word) or re.compile('swift').match(word)): 
                     swift_word += 1
-                elif (re.compile('Bachelors') == word or re.compile('bachelors') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
+                elif (re.compile('Bachelors').match(word) or re.compile('bachelors').match(word) or re.compile('B.S.').match(word) or re.compile('BS').match(word) or re.compile('BachelorDegree').match(word)): 
                     bach_word += 1
-                elif (re.compile('masters').match(word.lower()) or re.compile('M.S.').match(word) or re.compile('MS').match(word) or re.compile('MasterDegree').match(word)): 
+                elif (re.compile('Masters').match(word) or re.compile('masters').match(word.lower()) or re.compile('M.S.').match(word) or re.compile('MS').match(word) or re.compile('MasterDegree').match(word)): 
                     master_word += 1
                 elif (re.compile('cloud').match(word.lower())):           
                     cloud_word += 1
