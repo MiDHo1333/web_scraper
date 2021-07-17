@@ -16,13 +16,13 @@ max_positions = 23 #positions per page, limited by LinkedIn
 max_pages = 10
 id_list = []
 
-for i in range(max_positions):
-    for j in range(max_pages): 
+for i in range(max_pages):
+    for j in range(max_positions): 
         url = f"https://www.linkedin.com/jobs/search/?currentJobId=2557487241&keywords=data%20scientist&position={i}&pageNum={j}"
         res = requests.get(url)
         soup = bs(res.text,'html.parser')
         job_container = soup.findAll("a",class_="base-card__full-link")
-        
+         
         for job in job_container:
             job = re.findall(r'\d+',str(job))
 
