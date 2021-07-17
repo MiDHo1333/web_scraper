@@ -9,6 +9,8 @@ import re as re
 import time
 import pandas as pd
 import os
+import csv
+import matplotlib.pyplot as plt
 
 #init selenium
 # PATH = input("Enter the Webdriver path: ")
@@ -31,7 +33,7 @@ password.send_keys(Keys.RETURN)
 
 #lists of profiles, posts, and authors
 post_links,post_texts,post_names = [],[],[]
-
+occurances = []
 
 def Scrape_func(a,b,c):
     name = a[28:-1]
@@ -91,16 +93,28 @@ def Scrape_func(a,b,c):
                     sql_word += 1
                 elif (re.compile('Swift') == word or re.compile('swift') == word): 
                     swift_word += 1
-                elif (re.compile('Bachelor') == word or re.compile('bachelor') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
+                elif (re.compile('Bachelors') == word or re.compile('bachelors') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
                     bach_word += 1
-                elif (re.compile('Master') == word or re.compile('master') == word or re.compile('M.S.') == word or re.compile('MS') == word or re.compile('MasterDegree') == word): 
+                elif (re.compile('Masters') == word or re.compile('masters') == word or re.compile('M.S.') == word or re.compile('MS') == word or re.compile('MasterDegree') == word): 
                     master_word += 1
             
             #appending to new/existing csv file
             b.append(text_box)
             c.append(name)
 
-            #need to append words to freq csv
+            #append words to freq csv
+            occurances.append(python_word)
+            occurances.append(r_word)
+            occurances.append(julia_word)
+            occurances.append(c_word)
+            occurances.append(cplus_word)
+            occurances.append(scala_word)
+            occurances.append(javascript_word)
+            occurances.append(sql_word)
+            occurances.append(swift_word)
+            occurances.append(bach_word)
+            occurances.append(master_word)
+
 
         except:
             print("Mayday")
@@ -124,3 +138,27 @@ data = {
 df = pd.DataFrame(data)
 print(df)
 df.to_csv("test2.csv", encoding='utf-8', index=False,header=False,mode='a')
+
+#creating frequency.csv and appending the number of occurances for each word
+filename = "frequency.csv"
+names_of_cols = ['Python','R','Julia','C','C++','Scala','JavaScript','SQL','Swift','Bachelor','Masters']
+with open(filename, 'w') as f:
+    f = csv.writer(f)
+    f.writerow(names_of_cols)
+    f.writerow(occurances)
+
+fig = plt.figure(figsize = (10, 8))
+ 
+# creating the bar plot
+plt.bar(names_of_cols, occurances, color ='blue',
+        width = 0.4)
+ 
+plt.xlabel("Specific Requirements")
+plt.ylabel("No. of job positions requiring these skills")
+plt.title("Frequency of Skills listed in Data Science Positions")
+plt.show()
+
+# creating pie chart plot
+fig = plt.figure(figsize =(10, 7))
+plt.pie(occurances, labels = names_of_cols)
+plt.show()
