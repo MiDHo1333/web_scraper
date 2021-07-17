@@ -22,7 +22,7 @@ def Scrape_func(links, occurences):
                 # for loop to iterate through all words in span to count the importance of them
                 for word in text_box:
                     if word in occurances.keys():
-                        occurances[word] += 1                    
+                        occurances[word] += 1                  
             except:
                 print("Mayday")
                 pass 
