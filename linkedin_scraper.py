@@ -6,13 +6,6 @@ import csv
 import matplotlib.pyplot as plt
 import requests
 
-occurances = {}.fromkeys(['Python','R','Julia','C','C++','Scala','Javascript',
-        'SQL','Swift','Bachelors','Masters','Cloud','Tableau'],0)
-actual_links_processed = 0
-
-
-
-
 def Scrape_func(links, actual_links_processed, occurences):
 
     #number of occurences for these words
@@ -43,6 +36,9 @@ def Scrape_func(links, actual_links_processed, occurences):
                 text_box = re.split(r'\W+',str(text_box))
                 # for loop to iterate through all words in span to count the importance of them
                 for word in text_box:
+                    if word in occurances.keys():
+                        occurances[word] += 1
+                    actual_links_processed += 1
                     # if (re.compile('Python').match(word)or re.compile('python').match(word)):
                     #     python_word += 1
                     # elif (re.compile('R').match(word) or re.compile('r').match(word)):
@@ -72,17 +68,16 @@ def Scrape_func(links, actual_links_processed, occurences):
                     #     cloud_word += 1
                     # if (re.compile('tableau').match(word.lower())):           
                     #     tableau_word += 1
-                    if word in occurances.keys():
-                        occurances[word] += 1
+
                 
-                # append words to freq csv
+                
 
 
-                actual_links_processed += 1
+                
             except:
                 print("Mayday")
                 pass 
-
+                # append words to freq csv
                 # occurances.append(python_word)
                 # occurances.append(r_word)
                 # occurances.append(julia_word)
@@ -97,6 +92,11 @@ def Scrape_func(links, actual_links_processed, occurences):
                 # occurances.append(cloud_word)
                 # occurances.append(tableau_word)
 job_links = pd.read_excel('job_links.xlsx',header=0,dtype={'Links':str})
+
+occurances = {}.fromkeys(['Python','R','Julia','C','C++','Scala','Javascript',
+        'SQL','Swift','Bachelors','Masters','Cloud','Tableau'],0)
+actual_links_processed = 0
+
 Scrape_func(job_links,actual_links_processed,occurances)
 
 print("total companies",actual_links_processed)
@@ -115,7 +115,7 @@ with open(filename, 'w') as f:
 fig = plt.figure(figsize = (10, 8))
  
 # creating the bar plot
-plt.bar(names_of_cols, occurances, color ='blue',
+plt.bar(occurances.keys(), occurances.values(), color ='blue',
         width = 0.4)
  
 plt.xlabel("Specific Requirements")
@@ -125,5 +125,5 @@ plt.show()
 
 # creating pie chart plot
 fig = plt.figure(figsize =(10, 7))
-plt.pie(occurances, labels = names_of_cols)
+plt.pie(occurances.values(), labels = occurances.keys())
 plt.show()
