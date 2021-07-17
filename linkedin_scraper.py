@@ -1,62 +1,25 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
 from bs4 import BeautifulSoup as bs
 import re as re
-import time
 import pandas as pd
 import os
 import csv
 import matplotlib.pyplot as plt
+import requests
 
-#init selenium
-# PATH = input("Enter the Webdriver path: ")
-USERNAME = os.environ['LINKEDIN_USERNAME']
-PASSWORD = os.environ['LINKEDIN_PASSWORD']
-
-#init web driver
-# driver = webdriver.Chrome(PATH)
-driver = webdriver.Chrome()
-
-#init linkedin
-driver.get("https://www.linkedin.com/uas/login")
-time.sleep(1)
-email=driver.find_element_by_id("username")
-email.send_keys(USERNAME)
-password=driver.find_element_by_id("password")
-password.send_keys(PASSWORD)
-time.sleep(1)
-password.send_keys(Keys.RETURN)
-
-#lists of profiles, posts, and authors
-post_links,post_texts,post_names = [],[],[]
 occurances = []
 
-def Scrape_func(a,b,c):
-    name = a[28:-1]
-    page = a
-    time.sleep(10)
-
-    #slice profile name
-    driver.get(page + 'detail/recent-activity/shares/')  
-    company_page = driver.page_source   
-
-    linkedin_soup = bs(company_page.encode("utf-8"), "html")
-    linkedin_soup.prettify()
-    containers = linkedin_soup.findAll("article",{"class":"jobs-description__container jobs-description__container--condensed"})
-    print("Fetching data from account: "+ name)
-    iterations = 0
-    # nos = int(input("Enter number of posts: "))
-    for container in containers:
-
+def Scrape_func(links):
+    url = "https://www.linkedin.com/jobs/view/2644245283/?alternateChannel=search&refId=V7qh%2F7YOXM6rnRdfIu8lCA%3D%3D&trackingId=YCM8qAXxtQH80KA9b2C6hA%3D%3D"
+    url += 'detail/recent-activity/shares/'
+    res = requests.get(url)
+    soup = bs(res.text,'html.parser')
+    job_containers = soup.findAll("section",class_="description")
+    for container in job_containers:    
         try:
-            text_box = container.find("div",{"class":"jobs-description__content jobs-description-content jobs-description__content--condensed"})
-            text_box = container.find("span")
-            #spliting the text in span into individual words
-            text_box = (re.split(r'\W+',text_box))
+            text_box = container.find("section")
+            # #spliting the text in span into individual words
+            text_box = re.split(r'\W+',str(text_box))
+            print(text_box)
             #number of occurences for these words
             python_word = 0
             r_word = 0
@@ -69,6 +32,8 @@ def Scrape_func(a,b,c):
             swift_word = 0
             bach_word = 0
             master_word = 0
+            cloud_word = 0
+            tableau_word = 0
 
             #for loop to iterate through all words in span to count the importance of them
             for word in text_box:
@@ -80,9 +45,9 @@ def Scrape_func(a,b,c):
                     julia_word += 1
                 elif (re.compile('C') == word or re.compile('c') == word):
                     c_word += 1
-                elif (re.compile('C++') == word or re.compile('c++') == word):
+                elif (re.compile('C\+\+') == word or re.compile('c\+\+') == word):
                     cplus_word += 1
-                elif (re.compile('C/C++') == word or re.compile('c/c++') == word):
+                elif (re.compile('C/C\+\+') == word or re.compile('c/c\+\+') == word):
                     c_word += 1
                     cplus_word += 1
                 elif (re.compile('Scala') == word or re.compile('scala') == word):
@@ -95,13 +60,13 @@ def Scrape_func(a,b,c):
                     swift_word += 1
                 elif (re.compile('Bachelors') == word or re.compile('bachelors') == word or re.compile('B.S.') == word or re.compile('BS') == word or re.compile('BachelorDegree') == word): 
                     bach_word += 1
-                elif (re.compile('Masters') == word or re.compile('masters') == word or re.compile('M.S.') == word or re.compile('MS') == word or re.compile('MasterDegree') == word): 
+                elif (re.compile('masters').match(word.lower()) or re.compile('M.S.').match(word) or re.compile('MS').match(word) or re.compile('MasterDegree').match(word)): 
                     master_word += 1
+                elif (re.compile('cloud').match(word.lower())):           
+                    cloud_word += 1
+                elif (re.compile('tableau').match(word.lower())):           
+                    tableau_word += 1
             
-            #appending to new/existing csv file
-            b.append(text_box)
-            c.append(name)
-
             #append words to freq csv
             occurances.append(python_word)
             occurances.append(r_word)
@@ -114,34 +79,20 @@ def Scrape_func(a,b,c):
             occurances.append(swift_word)
             occurances.append(bach_word)
             occurances.append(master_word)
-
-
+            occurances.append(cloud_word)
+            occurances.append(tableau_word)
         except:
             print("Mayday")
             pass 
 
-n = int(input("Enter the number of entries: "))
-for i in range(n):
-    post_links.append(input("Enter the link: "))
-for j in range(n):
-    Scrape_func(post_links[j],post_texts,post_names)
 
-        
-driver.quit()
-
-# Saving the data
-data = {
-    "Name": post_names,
-    "Content": post_texts,
-}
-
-df = pd.DataFrame(data)
-print(df)
-df.to_csv("test2.csv", encoding='utf-8', index=False,header=False,mode='a')
+job_links = pd.read_excel('job_links.xlsx',index_col=None,header=None,nrows=1)
+for j in range(len(job_links)):
+    Scrape_func(job_links[j])
 
 #creating frequency.csv and appending the number of occurances for each word
 filename = "frequency.csv"
-names_of_cols = ['Python','R','Julia','C','C++','Scala','JavaScript','SQL','Swift','Bachelor','Masters']
+names_of_cols = ['Python','R','Julia','C','C++','Scala','JavaScript','SQL','Swift','Bachelor','Masters','Cloud','Tableau']
 with open(filename, 'w') as f:
     f = csv.writer(f)
     f.writerow(names_of_cols)
