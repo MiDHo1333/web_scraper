@@ -7,6 +7,21 @@ import matplotlib.pyplot as plt
 import requests
 
 occurances = []
+#number of occurences for these words
+python_word = 0
+r_word = 0
+julia_word = 0
+c_word = 0
+cplus_word = 0
+scala_word = 0
+javascript_word = 0
+sql_word = 0
+swift_word = 0
+bach_word = 0
+master_word = 0
+cloud_word = 0
+tableau_word = 0
+
 
 def Scrape_func(links):
     url = "https://www.linkedin.com/jobs/view/2644245283/?alternateChannel=search&refId=V7qh%2F7YOXM6rnRdfIu8lCA%3D%3D&trackingId=YCM8qAXxtQH80KA9b2C6hA%3D%3D"
@@ -20,21 +35,8 @@ def Scrape_func(links):
             # #spliting the text in span into individual words
             text_box = re.split(r'\W+',str(text_box))
             print(text_box)
-            #number of occurences for these words
-            python_word = 0
-            r_word = 0
-            julia_word = 0
-            c_word = 0
-            cplus_word = 0
-            scala_word = 0
-            javascript_word = 0
-            sql_word = 0
-            swift_word = 0
-            bach_word = 0
-            master_word = 0
-            cloud_word = 0
-            tableau_word = 0
 
+            
             #for loop to iterate through all words in span to count the importance of them
             for word in text_box:
                 if (re.compile('Python') == word or re.compile('python') == word):
