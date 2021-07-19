@@ -29,9 +29,10 @@ def Scrape_func(links, occurences):
             
 job_links = pd.read_excel('job_links.xlsx',header=0,dtype={'Links':str})
 
-occurances = {}.fromkeys(['Python','R','Julia','C','C++','Scala','Javascript',
-    'SQL','Swift','Bachelors','Masters','Cloud','Tableau','Tensorflow','Hadoop',
-    'PyTorch','Ruby','Github','Django','MongoDB'],0)
+occurances = {}.fromkeys(['Python','Pandas','Matplotlib','Tensorflow','Numpy','Scikitlearn',
+    'AWS','Azure','Kubernetes','R','Tidyverse','Ggplot','Dplyr','Tidyr','Readr','Forcats',
+    'SparkR','Julia','C','Scala','Javascript','SQL','Bachelors','Masters','AI','ML','Cloud',
+    'Tableau','Tensorflow','Hadoop','PyTorch','Ruby','Github','Django','MongoDB'],0)
 
 Scrape_func(job_links,occurances)
 #creating frequency.csv and appending the number of occurances for each word
