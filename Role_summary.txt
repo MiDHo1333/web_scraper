@@ -1,0 +1,41 @@
+Data Role
+	Pandas
+	Numpy
+	Tidyverse
+	Dplyr
+	Tidyr
+	Readr
+	C
+	Javascript
+	Scala
+	Ruby
+	
+Visualization Role
+	Matplotlib
+	Ggplot
+	Tableau
+
+Math/Modeler Role
+	Tensorflow
+	Scikitlearn
+	Forcats
+	R
+	Julia
+	AI/ML
+	PyTorch 		
+
+Architect Role
+	AWS
+	Kubernetes
+	SparkR/Spark
+	Azure
+	SQL
+	Cloud
+	Hadoop
+	Django
+	MongoDB
+
+Misc
+	Bachelors
+	Masters
+	Github
