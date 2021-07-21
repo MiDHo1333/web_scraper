@@ -1,2 +1,2 @@
-python,pandas,matplotlib,tensorflow,numpy,scikitlearn,aws,azure,kubernetes,r,tidyverse,ggplot,dplyr,tidyr,readr,forcats,sparkr,julia,c,scala,javascript,sql,bachelors,masters,ai,ml,cloud,tableau,hadoop,pytorch,ruby,github,django,mongodb
-7,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,17,0,0,0,0,0,0,0
+python,pandas,matplotlib,tensorflow,numpy,scikitlearn,aws,azure,kubernetes,r,tidyverse,ggplot,dplyr,tidyr,readr,forcats,sparksparkr,julia,c,scala,javascript,sql,bachelors,masters,ai,ml,cloud,tableau,hadoop,pytorch,ruby,github,django,mongodb
+220,18,5,32,13,0,138,41,17,106,0,1,0,0,0,0,0,2,41,21,18,159,7,14,99,108,119,39,36,16,8,8,3,3

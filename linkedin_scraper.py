@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import requests
 
 
-def Scrape_func(links, occurences,lowercase_occurences):
+def Scrape_func(links, lowercase_occurences):
     for i in range(len(links)):
         url = links['Links'].values[i].strip(',')
         url += '/detail/recent-activity/shares/'
@@ -21,9 +21,8 @@ def Scrape_func(links, occurences,lowercase_occurences):
                 text_box = re.split(r'\W+',str(text_box))
                 # for loop to iterate through all words in span to count the importance of them
                 for word in text_box:
-                    if word in occurances.keys():
-                        occurances[word] += 1       
-                    if word.lower() in lowercase_occurances.keys():
+                    word = word.lower()
+                    if word in lowercase_occurances.keys():
                         lowercase_occurances[word] += 1           
             except:
                 print("Mayday")
@@ -32,16 +31,18 @@ def Scrape_func(links, occurences,lowercase_occurences):
 job_links = pd.read_excel('job_links.xlsx',header=0,dtype={'Links':str})
 
 occurances = {}.fromkeys(['Python','Pandas','Matplotlib','Tensorflow','Numpy','Scikitlearn',
-    'AWS','Azure','Kubernetes','R','Tidyverse','Ggplot','Dplyr','Tidyr','Readr','Forcats',
+    'AWS','Azure','Kubernetes','R','Tidyverse','Ggplot','Dplyr','Tidyr','Readr','Forcats', 'Spark'
     'SparkR','Julia','C','Scala','Javascript','SQL','Bachelors','Masters','AI','ML','Cloud',
     'Tableau','Tensorflow','Hadoop','PyTorch','Ruby','Github','Django','MongoDB'],0)
 
-lowercase_occurances = {}.fromkeys(['python','pandas','matplotlib','tensorflow','numpy',
-    'scikitlearn','aws','azure','kubernetes','r','tidyverse','ggplot','dplyr','tidyr','readr',
-    'forcats','sparkr','julia','c','scala','javascript','sql','bachelors','masters','ai','ml',
-    'cloud','tableau','tensorflow','hadoop','pytorch','ruby','github','django','mongodb'],0)
 
-Scrape_func(job_links,occurances,lowercase_occurances)
+lowercase_occurances = {}.fromkeys([k.lower() for k in occurances.keys()],0)
+# lowercase_occurances = {}.fromkeys(['python','pandas','matplotlib','tensorflow','numpy',
+#     'scikitlearn','aws','azure','kubernetes','r','tidyverse','ggplot','dplyr','tidyr','readr',
+#     'forcats','spark','sparkr',julia','c','scala','javascript','sql','bachelors','masters','ai','ml',
+#     'cloud','tableau','tensorflow','hadoop','pytorch','ruby','github','django','mongodb'],0)
+
+Scrape_func(job_links,lowercase_occurances)
 #creating frequency.csv and appending the number of occurances for each word
 filename = "frequency.csv"
 
